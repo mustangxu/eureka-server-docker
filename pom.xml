@@ -47,9 +47,38 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>0.41.0</version>
                 <configuration>
+                    <verbose>true</verbose>
                     <images>
                         <image>
-                            <name>mustangxu/eureka-server:${project.version}-${git.commit.id.abbrev}</name>
+                            <name>mustangxu/eureka-server</name>
+                            <build>
+                                <tags>
+                                    <tag>latest</tag>
+                                    <tag>%v-${git.commit.id.abbrev}</tag>
+                                </tags>
+                                <from>bellsoft/liberica-openjre-alpine-musl:17.0.6</from>
+                                <workdir>/app</workdir>
+                                <entryPoint>
+                                    <exec>
+                                        <arg>java</arg>
+                                        <arg>-Xmx1G</arg>
+                                        <arg>--enable-preview</arg>
+                                        <arg>-XX:+UnlockExperimentalVMOptions</arg>
+                                        <arg>-XX:+UseZGC</arg>
+                                        <arg>-jar</arg>
+                                        <arg>${project.artifactId}-${project.version}.jar</arg>
+                                    </exec>
+                                </entryPoint>
+                                <assemblies>
+                                    <assembly>
+                                        <descriptorRef>artifact</descriptorRef>
+                                        <targetDir>/app</targetDir>
+                                    </assembly>
+                                </assemblies>
+                                <ports>
+                                    <port>8761</port>
+                                </ports>
+                            </build>
                         </image>
                     </images>
                 </configuration>
