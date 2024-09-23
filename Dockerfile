@@ -4,7 +4,7 @@ COPY src src
 COPY pom.xml pom.xml
 RUN mvn -DskipTests clean package
 
-FROM bellsoft/liberica-runtime-container:jre-22-slim-musl
+FROM bellsoft/liberica-runtime-container:jre-23-slim-musl
 WORKDIR /app
 EXPOSE 8761
 ARG JAR_FILE=eureka-server-docker-1.0.0.jar
