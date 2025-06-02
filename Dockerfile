@@ -1,10 +1,10 @@
-FROM maven:3.9.8-eclipse-temurin-22-alpine AS build
+FROM maven:3.9-eclipse-temurin-23 AS build
 WORKDIR /app
 COPY src src
 COPY pom.xml pom.xml
 RUN mvn -DskipTests clean package
 
-FROM bellsoft/liberica-runtime-container:jre-24-slim-musl
+FROM eclipse-temurin:23-jre-ubi9-minimal
 WORKDIR /app
 EXPOSE 8761
 ARG JAR_FILE=eureka-server-docker-1.0.0.jar
